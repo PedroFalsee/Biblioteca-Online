@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Editar</title></head>
+<body>
+    <h1>Editar Livro</h1>
+    <form method="POST">
+        Título: <input name="titulo" value="{{ livro.titulo }}"><br>
+        Autor: <input name="autor" value="{{ livro.autor }}"><br>
+        Ano: <input name="ano" value="{{ livro.ano }}"><br>
+        <button type="submit">Salvar</button>
+    </form>
+</body>
+</html>

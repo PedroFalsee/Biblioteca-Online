@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Livros</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .livros-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+            list-style-type: none;
+            padding: 0;
+        }
+        .livros-grid li {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        .livros-grid li:hover {
+            transform: scale(1.03);
+        }
+        .livros-grid img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        .button {
+            display: inline-block;
+            margin-right: 10px;
+            margin-bottom: 20px;
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Lista de Livros</h1>
+        {% if session.get('admin') %}
+            <a href="/registrar" class="button">Adicionar Livro</a>
+        {% endif %}
+        <a href="/logout" class="button">Sair</a>
+        <ul class="livros-grid">
+            {% for livro in livros %}
+                <li>
+                    <a href="/livro/{{ loop.index0 }}">
+                        {% if livro.imagem_url %}
+                            <img src="{{ url_for('static', filename=livro.imagem_url) }}" alt="Capa do livro">
+                        {% elif livro.imagem %}
+                            <img src="{{ url_for('static', filename='capas/' + livro.imagem) }}" alt="Capa do livro">
+                        {% else %}
+                            <img src="{{ url_for('static', filename='capas/default-book.png') }}" alt="Capa do livro">
+                        {% endif %}
+                        <p><strong>{{ livro.titulo }}</strong></p>
+                        <p>{% if livro.disponivel %}<span style="color:green;">Disponível</span>{% else %}<span style="color:red;">Alugado</span>{% endif %}</p>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

@@ -1,0 +1,30 @@
+[
+    {
+        "titulo": "Dom Casmurro",
+        "autor": "Machado de Assis",
+        "ano": 1899,
+        "disponivel": true,
+        "imagem": "dom-casmurro.jpg"
+    },
+    {
+        "titulo": "O Primo Basílio",
+        "autor": "José Maria de Eça de Queirós",
+        "ano": 1878,
+        "disponivel": true,
+        "imagem": "primo-basilio.jpg"
+    },
+    {
+        "titulo": "Grande Sertão: Veredas",
+        "autor": "Guimarães Rosa",
+        "ano": 1956,
+        "disponivel": true,
+        "imagem": "grande-sertao.jpg"
+    },
+    {
+        "titulo": "Frankenstein",
+        "autor": "Mary Shelley",
+        "ano": "1818",
+        "imagem_url": "capas/710p9SUfZtL._AC_UF10001000_QL80_.jpg",
+        "disponivel": true
+    }
+]

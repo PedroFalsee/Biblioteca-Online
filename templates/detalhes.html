@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Detalhes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="book-details">
+            <h1>{{ livro.titulo }}</h1>
+            
+            {% if livro.imagem_url %}
+                <img src="{{ url_for('static', filename=livro.imagem_url) }}" alt="Capa do livro">
+            {% elif livro.imagem %}
+                <img src="{{ url_for('static', filename='capas/' + livro.imagem) }}" alt="Capa do livro">
+            {% else %}
+                <img src="{{ url_for('static', filename='capas/default-book.png') }}" alt="Capa do livro">
+            {% endif %}
+            
+            <p><strong>Autor:</strong> {{ livro.autor }}</p>
+            <p><strong>Ano:</strong> {{ livro.ano }}</p>
+            <p><strong>Status:</strong> 
+                {% if livro.disponivel %}
+                    <span class="status-disponivel">Disponível</span>
+                {% else %}
+                    <span class="status-alugado">Alugado</span>
+                {% endif %}
+            </p>
+
+            <div style="margin: 30px 0;">
+                {% if livro.disponivel %}
+                    <a href="/alugar/{{ id }}" class="button">📚 Alugar</a>
+                {% else %}
+                    <a href="/devolver/{{ id }}" class="button">↩️ Devolver</a>
+                {% endif %}
+
+                {% if session.get('admin') %}
+                    <a href="/editar/{{ id }}" class="button">✏️ Editar</a>
+                    <a href="/remover/{{ id }}" class="button" onclick="return confirm('Tem certeza que deseja remover este livro?')">🗑️ Remover</a>
+                {% endif %}
+            </div>
+
+            <div style="margin-top: 40px;">
+                <a href="/livros" class="button">← Voltar para Lista</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

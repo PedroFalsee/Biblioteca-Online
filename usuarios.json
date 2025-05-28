@@ -1,0 +1,1 @@
+[{"usuario": "admin", "senha": "admin123", "admin": true}, {"usuario": "usuario", "senha": "user123", "admin": false}, {"usuario": "dd", "senha": "dd", "admin": false}]
