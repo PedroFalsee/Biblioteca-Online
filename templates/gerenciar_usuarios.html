@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gerenciar Usuários</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .usuarios-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .usuarios-table th, .usuarios-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .usuarios-table th {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
+        .usuarios-table tr:hover {
+            background-color: #f5f5f5;
+        }
+        .prestige-form {
+            display: inline-block;
+            margin-right: 10px;
+        }
+        .prestige-form select {
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-right: 5px;
+        }
+        .prestige-form button {
+            padding: 5px 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .prestige-form button:hover {
+            background-color: #0056b3;
+        }
+        .remove-btn {
+            background-color: #dc3545 !important;
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+        .remove-btn:hover {
+            background-color: #c82333 !important;
+        }
+        .prestige-badge {
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            color: white;
+            font-weight: bold;
+        }
+        .prestige-0 { background-color: #6c757d; }
+        .prestige-1 { background-color: #17a2b8; }
+        .prestige-2 { background-color: #ffc107; color: #212529; }
+        .prestige-3 { background-color: #dc3545; }
+        .admin-controls {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>👥 Gerenciar Usuários</h1>
+        
+        <div class="admin-controls">
+            <h3>Controles de Administração</h3>
+            <p>Aqui você pode alterar o nível de prestígio dos usuários e remover contas.</p>
+            <p><strong>Níveis de Prestígio:</strong></p>
+            <ul style="margin: 10px 0; padding-left: 20px;">
+                <li><strong>0 - Usuário comum:</strong> Apenas visualização</li>
+                <li><strong>1 - Trabalhador comum:</strong> Gerenciar aluguel de livros</li>
+                <li><strong>2 - Trabalhador de alto prestígio:</strong> Adicionar livros e fazer backup</li>
+                <li><strong>3 - Prestígio máximo:</strong> Gerenciar usuários</li>
+            </ul>
+        </div>
+
+        <table class="usuarios-table">
+            <thead>
+                <tr>
+                    <th>👤 Usuário</th>
+                    <th>🏆 Prestígio Atual</th>
+                    <th>⚙️ Alterar Prestígio</th>
+                    <th>🗑️ Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for usuario in usuarios %}
+                <tr>
+                    <td><strong>{{ usuario.usuario }}</strong></td>
+                    <td>
+                        <span class="prestige-badge prestige-{{ usuario.get('prestigio', 0) }}">
+                            Nível {{ usuario.get('prestigio', 0) }}
+                        </span>
+                        {% if usuario.get('prestigio', 0) == 0 %}
+                            - Usuário comum
+                        {% elif usuario.get('prestigio', 0) == 1 %}
+                            - Trabalhador comum
+                        {% elif usuario.get('prestigio', 0) == 2 %}
+                            - Alto prestígio
+                        {% elif usuario.get('prestigio', 0) == 3 %}
+                            - Prestígio máximo
+                        {% endif %}
+                    </td>
+                    <td>
+                        <form method="POST" action="/alterar_prestigio/{{ usuario.usuario }}" class="prestige-form">
+                            <select name="prestigio" required>
+                                <option value="0" {% if usuario.get('prestigio', 0) == 0 %}selected{% endif %}>0 - Usuário comum</option>
+                                <option value="1" {% if usuario.get('prestigio', 0) == 1 %}selected{% endif %}>1 - Trabalhador comum</option>
+                                <option value="2" {% if usuario.get('prestigio', 0) == 2 %}selected{% endif %}>2 - Alto prestígio</option>
+                                <option value="3" {% if usuario.get('prestigio', 0) == 3 %}selected{% endif %}>3 - Prestígio máximo</option>
+                            </select>
+                            <button type="submit">💾 Salvar</button>
+                        </form>
+                    </td>
+                    <td>
+                        {% if usuario.usuario != session.get('usuario') %}
+                            <a href="/remover_usuario/{{ usuario.usuario }}" 
+                               class="button remove-btn" 
+                               onclick="return confirm('Tem certeza que deseja remover o usuário {{ usuario.usuario }}? Esta ação não pode ser desfeita.')">
+                                🗑️ Remover
+                            </a>
+                        {% else %}
+                            <span style="color: #6c757d; font-style: italic;">Sua conta</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div style="margin-top: 40px; text-align: center;">
+            <a href="/livros" class="button">← Voltar para Livros</a>
+        </div>
+    </div>
+</body>
+</html>

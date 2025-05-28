@@ -4,27 +4,31 @@
         "autor": "Machado de Assis",
         "ano": 1899,
         "disponivel": true,
-        "imagem": "dom-casmurro.jpg"
+        "imagem": "dom-casmurro.jpg",
+        "sinopse": "Romance narrado em primeira pessoa por Bento Santiago, que relembra sua juventude e o ciúme obsessivo que sentia de sua esposa Capitu. Uma das obras mais importantes da literatura brasileira, que explora temas como ciúme, memória e a natureza humana."
     },
     {
         "titulo": "O Primo Basílio",
         "autor": "José Maria de Eça de Queirós",
         "ano": 1878,
         "disponivel": true,
-        "imagem": "primo-basilio.jpg"
+        "imagem": "primo-basilio.jpg",
+        "sinopse": "Romance que retrata a sociedade lisboeta do século XIX através da história de Luísa, uma mulher burguesa que se envolve em um caso extraconjugal com seu primo Basílio. Uma crítica mordaz aos costumes e à moral da época."
     },
     {
         "titulo": "Grande Sertão: Veredas",
         "autor": "Guimarães Rosa",
         "ano": 1956,
         "disponivel": true,
-        "imagem": "grande-sertao.jpg"
+        "imagem": "grande-sertao.jpg",
+        "sinopse": "Narrativa épica que acompanha Riobaldo, um ex-jagunço que conta suas aventuras pelo sertão de Minas Gerais. Uma obra-prima da literatura brasileira que mescla realismo e elementos místicos, explorando temas universais como bem e mal, amor e guerra."
     },
     {
         "titulo": "Frankenstein",
         "autor": "Mary Shelley",
         "ano": "1818",
         "imagem_url": "capas/710p9SUfZtL._AC_UF10001000_QL80_.jpg",
-        "disponivel": true
+        "disponivel": true,
+        "sinopse": "Romance gótico que narra a história do jovem cientista Victor Frankenstein, que cria uma criatura artificial através de experimentos científicos. Considerado um dos primeiros romances de ficção científica, explora temas como ambição, responsabilidade e a natureza da humanidade."
     }
 ]

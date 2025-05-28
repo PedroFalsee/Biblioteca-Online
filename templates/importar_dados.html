@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Importar Dados</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .import-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 30px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .warning-box {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            color: #856404;
+        }
+        .warning-box h3 {
+            margin-top: 0;
+            color: #856404;
+        }
+        .info-box {
+            background-color: #d1ecf1;
+            border: 1px solid #bee5eb;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            color: #0c5460;
+        }
+        .info-box h3 {
+            margin-top: 0;
+            color: #0c5460;
+        }
+        .file-input-container {
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            margin: 20px 0;
+            transition: border-color 0.3s ease;
+        }
+        .file-input-container:hover {
+            border-color: #4CAF50;
+        }
+        .file-input-container input[type="file"] {
+            margin: 10px 0;
+        }
+        .flash-messages {
+            margin-bottom: 20px;
+        }
+        .flash-success {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        .flash-error {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="import-container">
+            <h1>📁 Importar Dados da Biblioteca</h1>
+
+            <!-- Mensagens Flash -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-messages">
+                        {% for category, message in messages %}
+                            <div class="flash-{{ category }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            <div class="warning-box">
+                <h3>⚠️ Atenção</h3>
+                <p><strong>Esta operação irá substituir todos os dados atuais da biblioteca!</strong></p>
+                <ul style="text-align: left; margin: 10px 0;">
+                    <li>Todos os livros atuais serão substituídos</li>
+                    <li>Todos os usuários atuais serão substituídos</li>
+                    <li>Todas as capas atuais serão substituídas</li>
+                </ul>
+                <p>Certifique-se de fazer um backup antes de importar novos dados.</p>
+            </div>
+
+            <div class="info-box">
+                <h3>ℹ️ Como usar</h3>
+                <p>Para importar dados:</p>
+                <ol style="text-align: left; margin: 10px 0;">
+                    <li>Selecione um arquivo .zip de backup da biblioteca</li>
+                    <li>O arquivo deve conter os arquivos <code>livros.json</code>, <code>usuarios.json</code> e a pasta <code>capas/</code></li>
+                    <li>Clique em "Importar Dados"</li>
+                    <li>Aguarde a confirmação da importação</li>
+                </ol>
+            </div>
+
+            <form method="POST" enctype="multipart/form-data">
+                <div class="file-input-container">
+                    <h3>📎 Selecionar Arquivo de Backup</h3>
+                    <p>Escolha um arquivo .zip contendo o backup da biblioteca</p>
+                    <input type="file" name="arquivo" accept=".zip" required>
+                    <p style="font-size: 14px; color: #666; margin-top: 10px;">
+                        Apenas arquivos .zip são aceitos
+                    </p>
+                </div>
+
+                <div style="text-align: center; margin: 30px 0;">
+                    <button type="submit" class="button" style="background: linear-gradient(135deg, #28a745, #20c997); font-size: 18px; padding: 15px 30px;">
+                        📁 Importar Dados
+                    </button>
+                </div>
+            </form>
+
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="/exportar_dados" class="button" style="background: linear-gradient(135deg, #17a2b8, #138496);">
+                    💾 Fazer Backup Antes
+                </a>
+                <a href="/livros" class="button">← Voltar para Livros</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

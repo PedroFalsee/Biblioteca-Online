@@ -19,6 +19,14 @@
             
             <p><strong>Autor:</strong> {{ livro.autor }}</p>
             <p><strong>Ano:</strong> {{ livro.ano }}</p>
+            
+            {% if livro.sinopse %}
+            <div style="text-align: left; margin: 20px 0; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+                <h3 style="margin-top: 0; color: #2c3e50;">Sinopse</h3>
+                <p style="line-height: 1.6; margin-bottom: 0;">{{ livro.sinopse }}</p>
+            </div>
+            {% endif %}
+            
             <p><strong>Status:</strong> 
                 {% if livro.disponivel %}
                     <span class="status-disponivel">Disponível</span>
@@ -28,13 +36,15 @@
             </p>
 
             <div style="margin: 30px 0;">
-                {% if livro.disponivel %}
-                    <a href="/alugar/{{ id }}" class="button">📚 Alugar</a>
-                {% else %}
-                    <a href="/devolver/{{ id }}" class="button">↩️ Devolver</a>
+                {% if prestigio >= 1 %}
+                    {% if livro.disponivel %}
+                        <a href="/alugar/{{ id }}" class="button">📚 Alugar</a>
+                    {% else %}
+                        <a href="/devolver/{{ id }}" class="button">↩️ Devolver</a>
+                    {% endif %}
                 {% endif %}
 
-                {% if session.get('admin') %}
+                {% if prestigio >= 2 %}
                     <a href="/editar/{{ id }}" class="button">✏️ Editar</a>
                     <a href="/remover/{{ id }}" class="button" onclick="return confirm('Tem certeza que deseja remover este livro?')">🗑️ Remover</a>
                 {% endif %}

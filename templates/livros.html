@@ -43,19 +43,86 @@
             margin: auto;
             padding: 20px;
         }
+        .pagination {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px 0;
+        }
+        .pagination a, .pagination span {
+            display: inline-block;
+            padding: 8px 16px;
+            margin: 0 4px;
+            text-decoration: none;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: white;
+            color: #333;
+        }
+        .pagination a:hover {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .pagination .current {
+            background-color: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+        .admin-controls {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #4CAF50;
+        }
+        .prestige-info {
+            background-color: #e3f2fd;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #1976d2;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Lista de Livros</h1>
-        {% if session.get('admin') %}
-            <a href="/registrar" class="button">Adicionar Livro</a>
+        
+        <!-- Informação de prestígio -->
+        <div class="prestige-info">
+            <strong>Seu nível de prestígio:</strong> {{ prestigio }} - 
+            {% if prestigio == 0 %}
+                Usuário comum (apenas visualização)
+            {% elif prestigio == 1 %}
+                Trabalhador comum (gerenciar aluguel)
+            {% elif prestigio == 2 %}
+                Trabalhador de alto prestígio (adicionar livros e backup)
+            {% elif prestigio == 3 %}
+                Prestígio máximo (gerenciar usuários)
+            {% endif %}
+        </div>
+        
+        <!-- Controles administrativos -->
+        {% if prestigio >= 2 %}
+        <div class="admin-controls">
+            <h3>Controles Administrativos</h3>
+            {% if prestigio >= 2 %}
+                <a href="/registrar" class="button">📚 Adicionar Livro</a>
+                <a href="/exportar_dados" class="button">💾 Exportar Dados</a>
+                <a href="/importar_dados" class="button">📁 Importar Dados</a>
+            {% endif %}
+            {% if prestigio >= 3 %}
+                <a href="/gerenciar_usuarios" class="button">👥 Gerenciar Usuários</a>
+            {% endif %}
+        </div>
         {% endif %}
-        <a href="/logout" class="button">Sair</a>
+        
+        <a href="/logout" class="button">🚪 Sair</a>
+        
         <ul class="livros-grid">
             {% for livro in livros %}
                 <li>
-                    <a href="/livro/{{ loop.index0 }}">
+                    <a href="/livro/{{ loop.index0 + (pagina_atual - 1) * 20 }}">
                         {% if livro.imagem_url %}
                             <img src="{{ url_for('static', filename=livro.imagem_url) }}" alt="Capa do livro">
                         {% elif livro.imagem %}
@@ -64,11 +131,39 @@
                             <img src="{{ url_for('static', filename='capas/default-book.png') }}" alt="Capa do livro">
                         {% endif %}
                         <p><strong>{{ livro.titulo }}</strong></p>
+                        <p>{{ livro.autor }}</p>
                         <p>{% if livro.disponivel %}<span style="color:green;">Disponível</span>{% else %}<span style="color:red;">Alugado</span>{% endif %}</p>
                     </a>
                 </li>
             {% endfor %}
         </ul>
+        
+        <!-- Paginação -->
+        {% if total_paginas > 1 %}
+        <div class="pagination">
+            {% if pagina_atual > 1 %}
+                <a href="{{ url_for('livros', pagina=1) }}">« Primeira</a>
+                <a href="{{ url_for('livros', pagina=pagina_atual-1) }}">‹ Anterior</a>
+            {% endif %}
+            
+            {% for num_pagina in range(1, total_paginas + 1) %}
+                {% if num_pagina == pagina_atual %}
+                    <span class="current">{{ num_pagina }}</span>
+                {% elif num_pagina <= pagina_atual + 2 and num_pagina >= pagina_atual - 2 %}
+                    <a href="{{ url_for('livros', pagina=num_pagina) }}">{{ num_pagina }}</a>
+                {% elif num_pagina == 1 or num_pagina == total_paginas %}
+                    <a href="{{ url_for('livros', pagina=num_pagina) }}">{{ num_pagina }}</a>
+                {% elif num_pagina == pagina_atual + 3 or num_pagina == pagina_atual - 3 %}
+                    <span>...</span>
+                {% endif %}
+            {% endfor %}
+            
+            {% if pagina_atual < total_paginas %}
+                <a href="{{ url_for('livros', pagina=pagina_atual+1) }}">Próxima ›</a>
+                <a href="{{ url_for('livros', pagina=total_paginas) }}">Última »</a>
+            {% endif %}
+        </div>
+        {% endif %}
     </div>
 </body>
 </html>

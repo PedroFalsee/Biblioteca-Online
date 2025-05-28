@@ -1,1 +1,20 @@
-[{"usuario": "admin", "senha": "admin123", "admin": true}, {"usuario": "usuario", "senha": "user123", "admin": false}, {"usuario": "dd", "senha": "dd", "admin": false}]
+[
+    {
+        "usuario": "admin", 
+        "senha": "admin123", 
+        "admin": true,
+        "prestigio": 3
+    }, 
+    {
+        "usuario": "usuario", 
+        "senha": "user123", 
+        "admin": false,
+        "prestigio": 0
+    }, 
+    {
+        "usuario": "dd", 
+        "senha": "dd", 
+        "admin": false,
+        "prestigio": 1
+    }
+]
